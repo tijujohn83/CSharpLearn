@@ -26,9 +26,9 @@ namespace ConsoleApp1
                 return x > 0;
             });
 
-            isTrue = UseExpression(x => {
-                return x > 0;
-            });
+            // isTrue = UseExpression(x => {
+            //     return x > 0;
+            // });
 
         }
 
