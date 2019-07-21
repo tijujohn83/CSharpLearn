@@ -1,0 +1,49 @@
+﻿@model IAEADataModel.Boat
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this Boat?</h3>
+<fieldset>
+    <legend>Boat</legend>
+    <div class="display-label">
+         Boat No.
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ID)
+    </div>
+    <div class="display-label">
+         Name
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         Hourly Rate
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HourlyRate)
+    </div>
+
+    <div class="display-field">
+        @Html.HiddenFor(model => model.IsRegistered)
+    </div>
+
+    <div class="display-label">
+         Is Rented?
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsRented)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

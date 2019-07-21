@@ -1,0 +1,43 @@
+﻿@model IAEADataModel.Rent
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Rent a Boat</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Rent</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BoatID, "Boat")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("BoatID", String.Empty)
+            @Html.ValidationMessageFor(model => model.BoatID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CustomerID, "Customer")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("CustomerID", String.Empty)
+            @Html.ValidationMessageFor(model => model.CustomerID)
+        </div>
+
+        <p>
+            <input type="submit" value="Rent" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

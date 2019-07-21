@@ -1,0 +1,48 @@
+﻿@model IList<IAEAMVCApplication.ViewModel.BoatModel>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>
+    Boats</h2>
+<p>
+    @Html.ActionLink("Register Boat", "Create")
+</p>
+<table>
+    <tr>
+        <th style="width:100px;">
+            Boat No.
+        </th>
+        <th style="width:150px;">
+            Boat Name
+        </th>
+        <th style="width:120px;">
+            Hourly Rate
+        </th>        
+        <th style="width:80px;">
+            Rented
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoatID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HourlyRate)
+            </td>            
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRented)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.BoatID }) |                
+                @Html.ActionLink("Delete", "Delete", new { id = item.BoatID })
+            </td>
+        </tr>
+    }
+</table>

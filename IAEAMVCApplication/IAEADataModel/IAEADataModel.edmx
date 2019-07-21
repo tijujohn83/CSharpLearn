@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="IAEADatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="IAEADatabaseModelStoreContainer">
+          <EntitySet Name="Boat" EntityType="IAEADatabaseModel.Store.Boat" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customer" EntityType="IAEADatabaseModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Rent" EntityType="IAEADatabaseModel.Store.Rent" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Rent_Boat" Association="IAEADatabaseModel.Store.FK_Rent_Boat">
+            <End Role="Boat" EntitySet="Boat" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Customer" Association="IAEADatabaseModel.Store.FK_Rent_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Boat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="HourlyRate" Type="int" Nullable="false" />
+          <Property Name="IsRegistered" Type="bit" Nullable="false" />
+          <Property Name="IsRented" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Rent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BoatID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="DateRentStart" Type="datetime" Nullable="false" />
+          <Property Name="DateRentEnd" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Rent_Boat">
+          <End Role="Boat" Type="IAEADatabaseModel.Store.Boat" Multiplicity="1" />
+          <End Role="Rent" Type="IAEADatabaseModel.Store.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="BoatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Customer">
+          <End Role="Customer" Type="IAEADatabaseModel.Store.Customer" Multiplicity="1" />
+          <End Role="Rent" Type="IAEADatabaseModel.Store.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spRentBoat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BoatID" Type="int" Mode="In" />
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="RentStartDate" Type="datetime" Mode="In" />
+          <Parameter Name="SuccessReturn" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spReturnRentedBoat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RentID" Type="int" Mode="In" />
+          <Parameter Name="RentEndDate" Type="datetime" Mode="In" />
+          <Parameter Name="SuccessReturn" Type="int" Mode="InOut" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IAEADatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="IAEADatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Boats" EntityType="IAEADatabaseModel.Boat" />
+          <EntitySet Name="Customers" EntityType="IAEADatabaseModel.Customer" />
+          <EntitySet Name="Rents" EntityType="IAEADatabaseModel.Rent" />
+          <AssociationSet Name="FK_Rent_Boat" Association="IAEADatabaseModel.FK_Rent_Boat">
+            <End Role="Boat" EntitySet="Boats" />
+            <End Role="Rent" EntitySet="Rents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Customer" Association="IAEADatabaseModel.FK_Rent_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Rent" EntitySet="Rents" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Boat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="HourlyRate" Nullable="false" />
+          <Property Type="Boolean" Name="IsRegistered" Nullable="false" />
+          <Property Type="Boolean" Name="IsRented" Nullable="false" />
+          <NavigationProperty Name="Rents" Relationship="IAEADatabaseModel.FK_Rent_Boat" FromRole="Boat" ToRole="Rent" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Rents" Relationship="IAEADatabaseModel.FK_Rent_Customer" FromRole="Customer" ToRole="Rent" />
+        </EntityType>
+        <EntityType Name="Rent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BoatID" Nullable="false" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="DateTime" Name="DateRentStart" Nullable="false" />
+          <Property Type="DateTime" Name="DateRentEnd" />
+          <NavigationProperty Name="Boat" Relationship="IAEADatabaseModel.FK_Rent_Boat" FromRole="Rent" ToRole="Boat" />
+          <NavigationProperty Name="Customer" Relationship="IAEADatabaseModel.FK_Rent_Customer" FromRole="Rent" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_Rent_Boat">
+          <End Type="IAEADatabaseModel.Boat" Role="Boat" Multiplicity="1" />
+          <End Type="IAEADatabaseModel.Rent" Role="Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="BoatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Customer">
+          <End Type="IAEADatabaseModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="IAEADatabaseModel.Rent" Role="Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IAEADatabaseModelStoreContainer" CdmEntityContainer="IAEADatabaseEntities">
+          <EntitySetMapping Name="Boats">
+            <EntityTypeMapping TypeName="IAEADatabaseModel.Boat">
+              <MappingFragment StoreEntitySet="Boat">
+                <ScalarProperty Name="IsRented" ColumnName="IsRented" />
+                <ScalarProperty Name="IsRegistered" ColumnName="IsRegistered" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="IAEADatabaseModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rents">
+            <EntityTypeMapping TypeName="IAEADatabaseModel.Rent">
+              <MappingFragment StoreEntitySet="Rent">
+                <ScalarProperty Name="DateRentEnd" ColumnName="DateRentEnd" />
+                <ScalarProperty Name="DateRentStart" ColumnName="DateRentStart" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="BoatID" ColumnName="BoatID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="IAEADataModel">
+        <EntityTypeShape EntityType="IAEADatabaseModel.Boat" Width="1.5" PointX="0.75" PointY="1" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="IAEADatabaseModel.Customer" Width="1.5" PointX="0.75" PointY="5.375" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="IAEADatabaseModel.Rent" Width="1.5" PointX="3" PointY="1" Height="2.3648893229166674" />
+        <AssociationConnector Association="IAEADatabaseModel.FK_Rent_Boat" >
+          <ConnectorPoint PointX="2.25" PointY="2.0862939453125" />
+          <ConnectorPoint PointX="3" PointY="2.0862939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="IAEADatabaseModel.FK_Rent_Customer" >
+          <ConnectorPoint PointX="2.25" PointY="6.172841796875" />
+          <ConnectorPoint PointX="3.75" PointY="6.172841796875" />
+          <ConnectorPoint PointX="3.75" PointY="3.3648893229166674" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

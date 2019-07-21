@@ -1,0 +1,56 @@
+﻿@model IAEAMVCApplication.ViewModel.AllRentListModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>
+    Rent/Return Boats</h2>
+<p>
+    @Html.ActionLink("Rent Boats", "Create")
+</p>
+<h3>
+    Available Boats on Rent</h3>
+<div id="RenderAttendance">
+    @Html.Partial("_AvailableBoats", @Model.AvailableBoats)    
+</div>
+
+<h3>
+    Rented Boats</h3>
+<table>
+    <tr>
+        <th style="width:70px;">
+            Boat
+        </th>
+        <th style="width:70px;">
+            Customer
+        </th>
+        <th style="width:220px;">
+            Start Time
+        </th>
+        @*<th style="width:220px;">
+            End Time
+        </th>*@
+        <th>
+        </th>
+    </tr>
+    @foreach (var item in Model.RentedBoats)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoatName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRentStart)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.DateRentEnd)
+            </td>*@
+            <td>
+                @Html.ActionLink("Return", "Edit", new { id = item.RentID })
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ClassRegDemoModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ClassRegDemoModelStoreContainer">
+          <EntitySet Name="Class" EntityType="ClassRegDemoModel.Store.Class" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Club" EntityType="ClassRegDemoModel.Store.Club" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Student" EntityType="ClassRegDemoModel.Store.Student" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StudentClassMatch" EntityType="ClassRegDemoModel.Store.StudentClassMatch" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StudentClubMatch" EntityType="ClassRegDemoModel.Store.StudentClubMatch" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Teacher" EntityType="ClassRegDemoModel.Store.Teacher" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Class_Teacher" Association="ClassRegDemoModel.Store.FK_Class_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Class" EntitySet="Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School1StudentClassMatch_School1Class" Association="ClassRegDemoModel.Store.FK_School1StudentClassMatch_School1Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="StudentClassMatch" EntitySet="StudentClassMatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_School1StudentClassMatch_School1Student" Association="ClassRegDemoModel.Store.FK_School1StudentClassMatch_School1Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentClassMatch" EntitySet="StudentClassMatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentClubMatch_Club" Association="ClassRegDemoModel.Store.FK_StudentClubMatch_Club">
+            <End Role="Club" EntitySet="Club" />
+            <End Role="StudentClubMatch" EntitySet="StudentClubMatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentClubMatch_Student" Association="ClassRegDemoModel.Store.FK_StudentClubMatch_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentClubMatch" EntitySet="StudentClubMatch" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="TeacherId" Type="int" />
+          <Property Name="Grade" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Club">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="Zip" Type="int" />
+        </EntityType>
+        <EntityType Name="StudentClassMatch">
+          <Key>
+            <PropertyRef Name="StudentId" />
+            <PropertyRef Name="ClassId" />
+          </Key>
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentClubMatch">
+          <Key>
+            <PropertyRef Name="StudentId" />
+            <PropertyRef Name="ClubId" />
+          </Key>
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="ClubId" Type="int" Nullable="false" />
+          <Property Name="IsCommiteMember" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="Zip" Type="int" />
+        </EntityType>
+        <Association Name="FK_Class_Teacher">
+          <End Role="Teacher" Type="ClassRegDemoModel.Store.Teacher" Multiplicity="0..1" />
+          <End Role="Class" Type="ClassRegDemoModel.Store.Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School1StudentClassMatch_School1Class">
+          <End Role="Class" Type="ClassRegDemoModel.Store.Class" Multiplicity="1" />
+          <End Role="StudentClassMatch" Type="ClassRegDemoModel.Store.StudentClassMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentClassMatch">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_School1StudentClassMatch_School1Student">
+          <End Role="Student" Type="ClassRegDemoModel.Store.Student" Multiplicity="1" />
+          <End Role="StudentClassMatch" Type="ClassRegDemoModel.Store.StudentClassMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentClassMatch">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentClubMatch_Club">
+          <End Role="Club" Type="ClassRegDemoModel.Store.Club" Multiplicity="1" />
+          <End Role="StudentClubMatch" Type="ClassRegDemoModel.Store.StudentClubMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentClubMatch">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentClubMatch_Student">
+          <End Role="Student" Type="ClassRegDemoModel.Store.Student" Multiplicity="1" />
+          <End Role="StudentClubMatch" Type="ClassRegDemoModel.Store.StudentClubMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentClubMatch">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ClassRegDemoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ClassRegDemoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Classes" EntityType="ClassRegDemoModel.Class" />
+          <EntitySet Name="Clubs" EntityType="ClassRegDemoModel.Club" />
+          <EntitySet Name="Students" EntityType="ClassRegDemoModel.Student" />
+          <EntitySet Name="StudentClubMatches" EntityType="ClassRegDemoModel.StudentClubMatch" />
+          <EntitySet Name="Teachers" EntityType="ClassRegDemoModel.Teacher" />
+          <AssociationSet Name="FK_Class_Teacher" Association="ClassRegDemoModel.FK_Class_Teacher">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="Class" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentClubMatch_Club" Association="ClassRegDemoModel.FK_StudentClubMatch_Club">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="StudentClubMatch" EntitySet="StudentClubMatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentClubMatch_Student" Association="ClassRegDemoModel.FK_StudentClubMatch_Student">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="StudentClubMatch" EntitySet="StudentClubMatches" />
+          </AssociationSet>
+          <AssociationSet Name="StudentClassMatch" Association="ClassRegDemoModel.StudentClassMatch">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="TeacherId" />
+          <Property Type="Int32" Name="Grade" Nullable="false" />
+          <NavigationProperty Name="Teacher" Relationship="ClassRegDemoModel.FK_Class_Teacher" FromRole="Class" ToRole="Teacher" />
+          <NavigationProperty Name="Students" Relationship="ClassRegDemoModel.StudentClassMatch" FromRole="Class" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Club">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StudentClubMatches" Relationship="ClassRegDemoModel.FK_StudentClubMatch_Club" FromRole="Club" ToRole="StudentClubMatch" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="State" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Country" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Zip" />
+          <NavigationProperty Name="StudentClubMatches" Relationship="ClassRegDemoModel.FK_StudentClubMatch_Student" FromRole="Student" ToRole="StudentClubMatch" />
+          <NavigationProperty Name="Classes" Relationship="ClassRegDemoModel.StudentClassMatch" FromRole="Student" ToRole="Class" />
+        </EntityType>
+        <EntityType Name="StudentClubMatch">
+          <Key>
+            <PropertyRef Name="StudentId" />
+            <PropertyRef Name="ClubId" />
+          </Key>
+          <Property Type="Int32" Name="StudentId" Nullable="false" />
+          <Property Type="Int32" Name="ClubId" Nullable="false" />
+          <Property Type="Boolean" Name="IsCommiteMember" Nullable="false" />
+          <NavigationProperty Name="Club" Relationship="ClassRegDemoModel.FK_StudentClubMatch_Club" FromRole="StudentClubMatch" ToRole="Club" />
+          <NavigationProperty Name="Student" Relationship="ClassRegDemoModel.FK_StudentClubMatch_Student" FromRole="StudentClubMatch" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="State" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Country" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Zip" />
+          <NavigationProperty Name="Classes" Relationship="ClassRegDemoModel.FK_Class_Teacher" FromRole="Teacher" ToRole="Class" />
+        </EntityType>
+        <Association Name="FK_Class_Teacher">
+          <End Type="ClassRegDemoModel.Teacher" Role="Teacher" Multiplicity="0..1" />
+          <End Type="ClassRegDemoModel.Class" Role="Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentClubMatch_Club">
+          <End Type="ClassRegDemoModel.Club" Role="Club" Multiplicity="1" />
+          <End Type="ClassRegDemoModel.StudentClubMatch" Role="StudentClubMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentClubMatch">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentClubMatch_Student">
+          <End Type="ClassRegDemoModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="ClassRegDemoModel.StudentClubMatch" Role="StudentClubMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentClubMatch">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StudentClassMatch">
+          <End Type="ClassRegDemoModel.Class" Role="Class" Multiplicity="*" />
+          <End Type="ClassRegDemoModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ClassRegDemoModelStoreContainer" CdmEntityContainer="ClassRegDemoEntities">
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="ClassRegDemoModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clubs">
+            <EntityTypeMapping TypeName="ClassRegDemoModel.Club">
+              <MappingFragment StoreEntitySet="Club">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="ClassRegDemoModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentClubMatches">
+            <EntityTypeMapping TypeName="ClassRegDemoModel.StudentClubMatch">
+              <MappingFragment StoreEntitySet="StudentClubMatch">
+                <ScalarProperty Name="IsCommiteMember" ColumnName="IsCommiteMember" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="ClassRegDemoModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="StudentClassMatch" TypeName="ClassRegDemoModel.StudentClassMatch" StoreEntitySet="StudentClassMatch">
+            <EndProperty Name="Student">
+              <ScalarProperty Name="Id" ColumnName="StudentId" />
+            </EndProperty>
+            <EndProperty Name="Class">
+              <ScalarProperty Name="Id" ColumnName="ClassId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ClassRegModels">
+        <EntityTypeShape EntityType="ClassRegDemoModel.Class" Width="1.5" PointX="3" PointY="1.125" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="ClassRegDemoModel.Club" Width="1.5" PointX="5.25" PointY="5.5" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="ClassRegDemoModel.Student" Width="1.5" PointX="5.25" PointY="1" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="ClassRegDemoModel.StudentClubMatch" Width="1.5" PointX="7.5" PointY="1.375" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="ClassRegDemoModel.Teacher" Width="1.5" PointX="0.75" PointY="1" Height="2.5571907552083317" />
+        <AssociationConnector Association="ClassRegDemoModel.FK_Class_Teacher" >
+          <ConnectorPoint PointX="2.25" PointY="2.3074446614583337" />
+          <ConnectorPoint PointX="3" PointY="2.3074446614583337" />
+        </AssociationConnector>
+        <AssociationConnector Association="ClassRegDemoModel.FK_StudentClubMatch_Club" >
+          <ConnectorPoint PointX="6.75" PointY="6.3939925130208337" />
+          <ConnectorPoint PointX="8.25" PointY="6.3939925130208337" />
+          <ConnectorPoint PointX="8.25" PointY="3.3552864583333317" />
+        </AssociationConnector>
+        <AssociationConnector Association="ClassRegDemoModel.FK_StudentClubMatch_Student" >
+          <ConnectorPoint PointX="6.75" PointY="2.3651432291666659" />
+          <ConnectorPoint PointX="7.5" PointY="2.3651432291666659" />
+        </AssociationConnector>
+        <AssociationConnector Association="ClassRegDemoModel.StudentClassMatch" >
+          <ConnectorPoint PointX="4.5" PointY="2.3074446614583337" />
+          <ConnectorPoint PointX="5.25" PointY="2.3074446614583337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

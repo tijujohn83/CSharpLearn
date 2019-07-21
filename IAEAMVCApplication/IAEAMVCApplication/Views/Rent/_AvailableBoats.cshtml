@@ -1,0 +1,31 @@
+﻿@model  IList<IAEAMVCApplication.ViewModel.BoatModel>
+
+<table>
+    <tr>
+        <th style="width:100px;">
+            Boat No.
+        </th>
+        <th style="width:150px;">
+            Boat Name
+        </th>
+        <th style="width:100px;">
+            Hourly Rate
+        </th>                
+        <th>
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoatID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HourlyRate)
+            </td>                        
+        </tr>
+    }
+</table>

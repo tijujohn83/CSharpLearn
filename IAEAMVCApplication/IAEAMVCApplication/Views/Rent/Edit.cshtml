@@ -1,0 +1,62 @@
+﻿@model IAEADataModel.Rent
+@{
+    ViewBag.Title = "Edit";     
+}
+<h2>
+    Return Boat</h2>
+@using (Html.BeginForm("EditWithAjax", "Rent", FormMethod.Post, new { id = "rentForm" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Rent</legend>
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.DateRentStart)
+        @Html.HiddenFor(model => model.BoatID)
+        @Html.HiddenFor(model => model.CustomerID)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BoatID, "Boat")
+        </div>
+        <div>
+            @Html.DropDownList("BoatID", (IEnumerable<SelectListItem>)ViewBag.BoatID, new { @disabled = "disabled" })
+            @Html.ValidationMessageFor(model => model.BoatID)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CustomerID, "Customer")
+        </div>
+        <div>
+            @Html.DropDownList("CustomerID", (IEnumerable<SelectListItem>)ViewBag.CustomerID, new { @disabled = "disabled" })
+            @Html.ValidationMessageFor(model => model.CustomerID)
+        </div>
+        <p>
+            <button type="submit" id="btnReturn" name="btnReturn">
+                Return</button>
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#btnReturn').click(function (e) {
+            e.preventDefault();
+            if ($("#rentForm").valid()) {                
+                $.ajax({
+                    url: $("#rentForm").attr('action'),
+                    type: $("#rentForm").attr('method'),
+                    data: $("#rentForm").serialize(),
+                    success: function (data) {                        
+                        alert(data);
+                        window.location.href = "/Rent/Index/";
+                    }
+                });
+            }
+        });
+    });
+</script>
